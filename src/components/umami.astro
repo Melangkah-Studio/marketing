@@ -44,18 +44,26 @@ const defaultConfig: TrackConfig = {
 ></script>
 
 <script is:inline>
-  const umamiScript = document.querySelector("script[data-website-id]");
+  const onReady = (fn) => {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", fn, { once: true });
+    } else {
+      fn();
+    }
+  };
 
-  const viewTransitionsEnabled = document.querySelector(
-    "meta[name='astro-view-transitions-enabled']"
-  )?.content;
+  const syncViewTransitionsRerun = () => {
+    const umamiScript = document.querySelector("script[data-website-id]");
 
-  if (viewTransitionsEnabled === "true" && umamiScript) {
-    umamiScript.setAttribute("data-astro-rerun", "true");
-  }
-</script>
+    const viewTransitionsEnabled = document.querySelector(
+      "meta[name='astro-view-transitions-enabled']"
+    )?.content;
 
-<script is:inline>
+    if (viewTransitionsEnabled === "true" && umamiScript) {
+      umamiScript.setAttribute("data-astro-rerun", "true");
+    }
+  };
+
   const setupOutboundLinkTracking = () => {
     const eventName = "outbound-link-click";
     const anchors = document.querySelectorAll("a");
@@ -77,6 +85,10 @@ const defaultConfig: TrackConfig = {
     }
   };
 
-  setupOutboundLinkTracking();
+  onReady(() => {
+    syncViewTransitionsRerun();
+    setupOutboundLinkTracking();
+  });
+
   document.addEventListener("astro:page-load", setupOutboundLinkTracking);
 </script>
