@@ -9,9 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "typecheck": "astro check"
   },
   "dependencies": {
     "astro": "^7.2.3"
+  },
+  "devDependencies": {
+    "@astrojs/ts-plugin": "^1.10.11"
   }
 }
