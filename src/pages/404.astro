@@ -1,0 +1,51 @@
+---
+import Layout from "@/components/layout.astro";
+import { constant } from "@/lib/constant";
+---
+
+<Layout title={`404 — ${constant.APP_NAME}`}>
+  <main class="not-found">
+    <p class="code">404</p>
+    <p class="message">Page not found</p>
+    <a class="back" href="/">Back to home</a>
+  </main>
+</Layout>
+
+<style>
+  .not-found {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .code {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .message {
+    font-size: var(--text-m);
+    opacity: 0.6;
+  }
+
+  .back {
+    margin-top: 0.5rem;
+    font-size: var(--text-s);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-black);
+    opacity: 0.4;
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+  }
+
+  .back:hover {
+    opacity: 1;
+  }
+</style>

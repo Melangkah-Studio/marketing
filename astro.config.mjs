@@ -8,4 +8,7 @@ export default defineConfig({
   site: "https://melangkah-studio.com",
   trailingSlash: "always",
   integrations: [sitemap()],
+  redirects: {
+    "/analytics": "https://cloud.umami.is/share/fbMpK8dlvWeG41PO",
+  },
 });
