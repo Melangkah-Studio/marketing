@@ -13,14 +13,14 @@ import { constant } from "@/lib/constant";
 
 <style>
   .not-found {
-    min-height: 100dvh;
     display: flex;
     flex-direction: column;
+    gap: 0.75rem;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    gap: 0.75rem;
+    min-height: 100dvh;
     padding: 1.5rem;
+    text-align: center;
   }
 
   .code {
@@ -37,11 +37,11 @@ import { constant } from "@/lib/constant";
   .back {
     margin-top: 0.5rem;
     font-size: var(--text-s);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
     color: var(--color-black);
-    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     text-decoration: underline;
+    opacity: 0.4;
     transition: opacity 0.2s ease;
   }
 

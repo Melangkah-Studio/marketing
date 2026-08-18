@@ -1,46 +1,46 @@
 ---
-type TrackConfig = {
+interface TrackConfig {
   autoTrack?: boolean;
-  hostUrl?: string;
-  domains?: string[];
-  tag?: string;
-  excludeSearch?: boolean;
-  excludeHash?: boolean;
   beforeSendHandler?: string | null;
-};
+  domains?: string[];
+  excludeHash?: boolean;
+  excludeSearch?: boolean;
+  hostUrl?: string;
+  tag?: string;
+}
 
-export type Props = {
-  websiteId: string;
+export interface Props {
   scriptSrc?: string;
-};
+  websiteId: string;
+}
 
 const { websiteId, scriptSrc = "https://cloud.umami.is/script.js" } =
   Astro.props;
 
 const defaultConfig: TrackConfig = {
   autoTrack: true,
-  hostUrl: "https://cloud.umami.is",
-  domains: ["melangkah-studio.com", "www.melangkah-studio.com"], // TODO: update this to the actual domain when we have one
-  tag: "site",
-  excludeSearch: false,
-  excludeHash: false,
   beforeSendHandler: null,
+  domains: ["melangkah-studio.com", "www.melangkah-studio.com"], // TODO: update this to the actual domain when we have one
+  excludeHash: false,
+  excludeSearch: false,
+  hostUrl: "https://cloud.umami.is",
+  tag: "site",
 };
 ---
 
 <script
+  data-astro-rerun="false"
+  data-auto-track={defaultConfig.autoTrack ? "true" : "false"}
+  data-before-send={defaultConfig.beforeSendHandler}
+  data-domains={defaultConfig.domains?.join(",")}
+  data-exclude-hash={defaultConfig.excludeHash ? "true" : "false"}
+  data-exclude-search={defaultConfig.excludeSearch ? "true" : "false"}
+  data-host-url={defaultConfig.hostUrl}
+  data-tag={defaultConfig.tag}
+  data-website-id={websiteId}
   defer
   src={scriptSrc}
-  data-website-id={websiteId}
   is:inline
-  data-auto-track={defaultConfig.autoTrack ? "true" : "false"}
-  data-host-url={defaultConfig.hostUrl}
-  data-domains={defaultConfig.domains?.join(",")}
-  data-tag={defaultConfig.tag}
-  data-exclude-search={defaultConfig.excludeSearch ? "true" : "false"}
-  data-exclude-hash={defaultConfig.excludeHash ? "true" : "false"}
-  data-before-send={defaultConfig.beforeSendHandler}
-  data-astro-rerun="false"
 ></script>
 
 <script is:inline>

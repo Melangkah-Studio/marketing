@@ -2,12 +2,12 @@
 import "@/styles/globals.css";
 import Umami from "./umami.astro";
 
-type Props = {
-  title?: string;
-  description?: string;
+interface Props {
   canonical?: string;
+  description?: string;
   ogImage?: string;
-};
+  title?: string;
+}
 
 const {
   title = "Melangkah Studio",
@@ -29,41 +29,44 @@ const jsonLd = {}; // TODO: add JSON-LD structured data when we have it
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content={Astro.generator}>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content={Astro.generator} name="generator">
 
     <title>{title}</title>
-    <meta name="description" content={description}>
-    <meta name="keywords" content={keywords.join(", ")}>
+    <meta content={description} name="description">
+    <meta content={keywords.join(", ")} name="keywords">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalUrl}>
+    <link href={canonicalUrl} rel="canonical">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+    <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+    <link href="/site.webmanifest" rel="manifest">
 
     <!-- TODO: Update theme color -->
     <!-- Theme Color -->
     <!-- <meta name="theme-color" content="#eb0028"> -->
 
     <!-- Preconnect for Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
 
     <!-- Google Fonts with optimized loading -->
-    <link href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    >
 
     <!-- Open Graph -->
-    <meta property="og:title" content={title}>
-    <meta property="og:description" content={description}>
-    <meta property="og:type" content="website">
-    <meta property="og:url" content={canonicalUrl}>
-    <meta property="og:image" content={ogImageUrl}>
-    <meta property="og:site_name" content="Melangkah Studio">
+    <meta content={title} property="og:title">
+    <meta content={description} property="og:description">
+    <meta content="website" property="og:type">
+    <meta content={canonicalUrl} property="og:url">
+    <meta content={ogImageUrl} property="og:image">
+    <meta content="Melangkah Studio" property="og:site_name">
 
     <!-- Twitter Card -->
     <!-- <meta name="twitter:card" content="summary_large_image">
@@ -76,15 +79,17 @@ const jsonLd = {}; // TODO: add JSON-LD structured data when we have it
     <!-- JSON-LD Structured Data -->
     <script
       type="application/ld+json"
-      set:html={JSON.stringify(jsonLd)}
       is:inline
+      set:html={JSON.stringify(jsonLd)}
     />
 
     <!-- Umami Analytics -->
     {import.meta.env.PROD && (
-      <link rel="preconnect" href="https://cloud.umami.is" crossorigin />
-      <Umami websiteId="a3569c6c-3ef9-4e82-bab7-5733d35561ed" />
-    )}
+        <>
+          <link crossorigin href="https://cloud.umami.is" rel="preconnect" />
+          <Umami websiteId="a3569c6c-3ef9-4e82-bab7-5733d35561ed" />
+        </>
+      )}
   </head>
   <body>
     <slot />
