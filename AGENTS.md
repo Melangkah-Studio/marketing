@@ -35,6 +35,61 @@ Spend your attention on what the linter can't check:
 - `site` in `astro.config.mjs` is a placeholder until a domain is registered
 - Shared values live in `src/lib/constant.ts`
 
+## Writing
+
+Applies to docs, READMEs, issues, PRs, commit messages, code comments, and
+replies in chat.
+
+### Every artifact
+
+- Keep it minimal — say it once, then stop
+- Don't write what the repo already shows: `package.json` scripts, file and
+  folder structure, env vars, config values, dependency versions, type
+  signatures, git history
+- Don't write what isn't set up yet
+- One fact, one place — name the file instead of copying what's in it
+- No preamble, no filler, no restating the request before answering
+- State things plainly; flag what's uncertain instead of writing around it
+- Comments explain why, never what
+
+### Issues, PRs, commits
+
+- Conventional Commit style for every title
+- Body is a short description of the change needed
+- Say what needs to change, not how to refactor it
+- Name file paths instead of pasting the code
+- Reference related issues by number
+
+## Call Graph Output
+
+When showing call graphs, execution flows, or architecture traces, use this format:
+
+Production:
+
+```ts
+HTTP handlers
+  → ComponentA
+    → ComponentA.layerX
+      → ComponentB
+        → ComponentC
+```
+
+Tests:
+
+```ts
+HTTP handlers
+  → ComponentA
+    → componentMemoryLayer
+      → ComponentA.layer
+        → ComponentB.layerMemory
+```
+
+- Plain text only, no rendered diagrams
+- Indented `→` arrows for hierarchy
+- `ts` code block
+- Production and Tests as separate sections when they differ
+- Include call graphs in project overviews, architecture summaries, and code explanations
+
 ## Docs
 
 [Astro reference](https://docs.astro.build) —
