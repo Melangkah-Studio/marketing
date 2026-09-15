@@ -69,22 +69,26 @@ const services = [
 
 <section id="section-4">
   <h2>Things We Make & Explore</h2>
-  <div class="content-container" style={`--stack-count: ${services.length};`}>
+  <div class="content-container">
     {services.map((service, index) => (
         <article
           class="content"
           style={`--stack-index: ${index};`}
         >
-          <span class="number">{String(index + 1).padStart(2, "0")}</span>
-          <h3>{service.title}</h3>
-          <div class="tags">
-            {service.tags.map((tag) => (
-              <span>{tag}</span>
-            ))}
-          </div>
-          <p>{service.description}</p>
-          <div class="image-container">
-            <Image alt={service.alt} src={service.image} />
+          <header class="content-header">
+            <span class="number">{String(index + 1).padStart(2, "0")}</span>
+            <h3>{service.title}</h3>
+            <div class="tags">
+              {service.tags.map((tag) => (
+                <span>{tag}</span>
+              ))}
+            </div>
+          </header>
+          <div class="content-body">
+            <p>{service.description}</p>
+            <div class="image-container">
+              <Image alt={service.alt} src={service.image} />
+            </div>
           </div>
         </article>
       ))}
@@ -123,22 +127,32 @@ const services = [
 
     position: sticky;
     top: calc(1rem + var(--stack-index) * var(--stack-step));
-    display: grid;
-    grid-template-areas:
-      "number title"
-      "tags tags"
-      "description description"
-      "image image";
-    grid-template-columns: 0.5fr 3fr;
-    min-height: calc(
-      100svh -
-      2rem -
-      (var(--stack-count) - 1) *
-      var(--stack-step)
-    );
-    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: calc(100svh - 2rem - var(--stack-index) * var(--stack-step));
+    overflow: clip;
     background-color: white;
     border-top: 1px solid #dcdcdc;
+  }
+
+  .content-header {
+    display: grid;
+    flex: none;
+    grid-template-areas:
+      "number title"
+      "tags tags";
+    grid-template-columns: 0.5fr 3fr;
+    height: var(--stack-step);
+    padding: 1rem;
+  }
+
+  .content-body {
+    display: grid;
+    flex: 1;
+    grid-template-rows: min-content minmax(0, 1fr);
+    gap: 1rem;
+    min-height: 0;
+    padding: 0 1rem 1rem;
   }
 
   .content:last-child {
@@ -185,9 +199,7 @@ const services = [
   }
 
   .content p {
-    grid-area: description;
-    align-self: end;
-    padding-top: 2rem;
+    align-self: start;
     font-size: 1rem;
     color: #333333;
     letter-spacing: -0.05em;
@@ -195,17 +207,14 @@ const services = [
   }
 
   .image-container {
-    grid-area: image;
     width: 100%;
-    height: auto;
-    padding-top: 1rem;
+    min-height: 0;
     overflow: hidden;
   }
 
   .content img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 1.188 / 1;
+    height: 100%;
     pointer-events: none;
     object-fit: cover;
     object-position: center;
@@ -232,20 +241,25 @@ const services = [
     }
 
     .content {
-      --stack-step: 6rem;
+      --stack-step: 8rem;
 
       top: calc(1rem + var(--stack-index) * var(--stack-step));
-      grid-template-areas:
-        "number title tags"
-        "description description image";
+      height: calc(100svh - 2rem - var(--stack-index) * var(--stack-step));
+    }
+
+    .content-header {
+      grid-template-areas: "number title tags";
       grid-template-columns: 0.25fr 3fr 1.5fr;
-      min-height: calc(
-        100svh -
-        2rem -
-        (var(--stack-count) - 1) *
-        var(--stack-step)
-      );
+      height: var(--stack-step);
       padding: 2rem;
+    }
+
+    .content-body {
+      grid-template-rows: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 2fr) minmax(14rem, 1fr);
+      gap: 2rem;
+      align-items: end;
+      padding: 0 2rem 2rem;
     }
 
     .number {
@@ -269,10 +283,6 @@ const services = [
     .content p {
       font-size: 1.25rem;
     }
-
-    .image-container {
-      padding-top: 4rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -283,7 +293,16 @@ const services = [
     .content {
       position: relative;
       top: auto;
-      min-height: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+    .content-header {
+      height: auto;
+    }
+
+    .image-container {
+      aspect-ratio: 1.188 / 1;
     }
   }
 </style>
