@@ -71,7 +71,10 @@ const services = [
   <h2>Things We Make & Explore</h2>
   <div class="content-container">
     {services.map((service, index) => (
-        <article class="content">
+        <article
+          class="content"
+          style={`--stack-index: ${index}; --stack-count: ${services.length};`}
+        >
           <span class="number">{String(index + 1).padStart(2, "0")}</span>
           <h3>{service.title}</h3>
           <div class="tags">
@@ -91,11 +94,12 @@ const services = [
 <style>
   #section-4 {
     position: relative;
+    padding-bottom: 1rem;
     background-color: white;
   }
 
   h2 {
-    padding: 1rem;
+    padding: 1rem 1rem 2rem;
     font-size: 2rem;
     font-weight: 700;
     color: #333333;
@@ -109,6 +113,10 @@ const services = [
   }
 
   .content {
+    --stack-step: 4.5rem;
+
+    position: sticky;
+    top: calc(1rem + var(--stack-index) * var(--stack-step));
     display: grid;
     grid-template-areas:
       "number title"
@@ -116,10 +124,18 @@ const services = [
       "tags tags"
       "image image";
     grid-template-columns: 0.5fr 3fr;
-    padding: 1rem 0;
+    min-height: calc(
+      100svh -
+      2rem -
+      (var(--stack-count) - 1) *
+      var(--stack-step)
+    );
+    padding: 1rem;
+    background-color: white;
+    border-top: 1px solid #dcdcdc;
   }
 
-  .content:not(:last-child) {
+  .content:last-child {
     border-bottom: 1px solid #dcdcdc;
   }
 
@@ -190,16 +206,40 @@ const services = [
   }
 
   @media (min-width: 768px) {
+    #section-4 {
+      display: grid;
+      grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1.3fr);
+      gap: 1rem;
+      align-items: start;
+      padding: 1rem;
+    }
+
     h2 {
+      position: sticky;
+      top: 1rem;
+      padding: 0;
       font-size: 3rem;
     }
 
+    .content-container {
+      padding: 0;
+    }
+
     .content {
+      --stack-step: 6rem;
+
+      top: calc(1rem + var(--stack-index) * var(--stack-step));
       grid-template-areas:
         "number title tags"
         "description description image";
       grid-template-columns: 0.25fr 3fr 1.5fr;
-      padding: 2rem 0 4rem;
+      min-height: calc(
+        100svh -
+        2rem -
+        (var(--stack-count) - 1) *
+        var(--stack-step)
+      );
+      padding: 2rem;
     }
 
     .number {
@@ -226,6 +266,14 @@ const services = [
 
     .image-container {
       padding-top: 4rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .content {
+      position: relative;
+      top: auto;
+      min-height: auto;
     }
   }
 </style>
