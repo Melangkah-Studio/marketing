@@ -9,7 +9,11 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
       <Image alt="A person moving through a sunlit field" src={HowWeMove} />
     </div>
     <div class="copy" data-scroll-zoom-copy>
-      <h2 id="how-we-move-title">How we move</h2>
+      <h2 class="title-intro" id="how-we-move-title">
+        <span>How we</span>
+        <span>move</span>
+      </h2>
+      <span aria-hidden="true" class="title-reveal">How we move</span>
       <p>
         There's more than one way to get there. We explore different ideas and
         perspectives to discover what feels right
@@ -46,19 +50,20 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
       const initialHeight = window.innerHeight * (isMobile ? 0.66 : 0.72);
       const finalHeight = window.innerHeight - inset * 2;
       const frameHeight = mix(initialHeight, finalHeight, expansion);
-      const initialTitleTop = window.innerHeight * (isMobile ? 0.09 : 0.1);
-      const titleTop = mix(initialTitleTop, window.innerHeight / 2, expansion);
-      const titleColorProgress = ease(clamp((progress - 0.18) / 0.42));
-      const titleColor = Math.round(mix(51, 255, titleColorProgress));
+      const introExit = ease(clamp(progress / 0.42));
+      const introShift =
+        window.innerWidth * (isMobile ? 0.42 : 0.36) * introExit;
+      const reveal = ease(clamp((progress - 0.28) / 0.38));
+      const revealOffset = mix(40, 0, reveal);
       const descriptionOpacity = ease(clamp((progress - 0.48) / 0.3));
 
       frame.style.setProperty("--frame-height", `${frameHeight}px`);
       frame.style.setProperty("--frame-inset", `${inset}px`);
-      copy.style.setProperty("--title-top", `${titleTop}px`);
-      copy.style.setProperty(
-        "--title-color",
-        `rgb(${titleColor} ${titleColor} ${titleColor})`
-      );
+      copy.style.setProperty("--intro-opacity", `${1 - introExit}`);
+      copy.style.setProperty("--intro-left-shift", `${-introShift}px`);
+      copy.style.setProperty("--intro-right-shift", `${introShift}px`);
+      copy.style.setProperty("--reveal-opacity", `${reveal}`);
+      copy.style.setProperty("--reveal-offset", `${revealOffset}px`);
       copy.style.setProperty("--description-opacity", `${descriptionOpacity}`);
     };
 
@@ -112,8 +117,11 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
 
   .copy {
     --description-opacity: 0;
-    --title-color: #333333;
-    --title-top: 10svh;
+    --intro-left-shift: 0px;
+    --intro-opacity: 1;
+    --intro-right-shift: 0px;
+    --reveal-offset: 2.5rem;
+    --reveal-opacity: 0;
 
     position: absolute;
     inset: 0;
@@ -121,18 +129,46 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
     pointer-events: none;
   }
 
-  h2 {
+  .title-intro,
+  .title-reveal {
     position: absolute;
-    top: var(--title-top);
     left: 50%;
     font-size: clamp(2rem, 5vw, 5rem);
     font-weight: 600;
-    color: var(--title-color);
     text-align: center;
     letter-spacing: -0.06em;
     white-space: nowrap;
+  }
+
+  .title-intro {
+    top: 10svh;
+    display: flex;
+    gap: 0.22em;
+    color: #333333;
+    opacity: var(--intro-opacity);
     transform: translate(-50%, -50%);
-    will-change: top, color;
+    will-change: opacity;
+  }
+
+  .title-intro span {
+    display: block;
+    will-change: transform;
+  }
+
+  .title-intro span:first-child {
+    transform: translateX(var(--intro-left-shift));
+  }
+
+  .title-intro span:last-child {
+    transform: translateX(var(--intro-right-shift));
+  }
+
+  .title-reveal {
+    top: 50%;
+    color: white;
+    opacity: var(--reveal-opacity);
+    transform: translate(-50%, calc(-50% + var(--reveal-offset)));
+    will-change: opacity, transform;
   }
 
   p {
@@ -153,8 +189,8 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
       --frame-inset: 0.75rem;
     }
 
-    .copy {
-      --title-top: 9svh;
+    .title-intro {
+      top: 9svh;
     }
 
     p {
@@ -170,7 +206,9 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
     }
 
     .frame,
-    h2,
+    .title-intro,
+    .title-intro span,
+    .title-reveal,
     p {
       will-change: auto;
     }
