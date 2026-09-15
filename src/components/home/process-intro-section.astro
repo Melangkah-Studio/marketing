@@ -103,8 +103,11 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
   }
 
   .frame img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100svh - var(--frame-inset) * 2);
     pointer-events: none;
     object-fit: cover;
     object-position: center;
