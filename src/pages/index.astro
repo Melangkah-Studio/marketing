@@ -1,6 +1,7 @@
 ---
 import FlowerOutline from "@/assets/imgs/flower-outline.png";
 import Hero from "@/assets/imgs/hero.png";
+import HowWeMove from "@/assets/imgs/how-we-move.png";
 import PeopleWalking from "@/assets/imgs/people-walking.png";
 import PrivateWellness from "@/assets/imgs/portfolios/private-wellness.png";
 import TedxUB2025 from "@/assets/imgs/portfolios/tedx-ub-2025.png";
@@ -203,7 +204,17 @@ import { Image } from "astro:assets";
         </div>
       </div>
     </div>
-    <div id="section-5"></div>
+    <div id="section-5">
+      <div class="hole">
+        <Image alt="How We Move" src={HowWeMove} />
+
+        <h2>How we move</h2>
+        <p>
+          There's more than one way to get there. We explore different ideas and
+          perspectives to discover what feels right
+        </p>
+      </div>
+    </div>
     <div id="section-6">
       <div class="content-container">
         <div class="content">
@@ -628,7 +639,7 @@ import { Image } from "astro:assets";
     padding: 1rem 0rem 1rem 0rem;
   }
 
-  #section-4 .content:not(:last-child){
+  #section-4 .content:not(:last-child) {
     border-bottom: 1px solid #dcdcdc;
   }
 
@@ -739,8 +750,77 @@ import { Image } from "astro:assets";
   }
 
   #section-5 {
+    position: relative;
     height: 100vh;
-    background-color: green;
+    background-color: white;
+  }
+
+  #section-5 img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: 1.78 / 1;
+    pointer-events: none;
+    object-fit: cover;
+    object-position: center;
+    transform: translate(-50%, -50%);
+  }
+
+  #section-5 .hole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100vw - 2rem);
+    height: calc(100vh - 2rem);
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+  }
+
+  #section-5 .hole h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    letter-spacing: -0.05em;
+    text-wrap: nowrap;
+    transform: translate(-50%, -50%);
+  }
+
+  #section-5 .hole p {
+    position: absolute;
+    bottom: calc(0% + 1rem);
+    left: calc(0% + 1rem);
+    width: 80%;
+    font-size: 1rem;
+    color: white;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 425px) {
+    #section-5 .hole h2 {
+      font-size: 3rem;
+    }
+
+    #section-5 .hole p {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    #section-5 .hole h2 {
+      font-size: 4rem;
+    }
+
+    #section-5 .hole p {
+      width: 60%;
+      font-size: 1.5rem;
+    }
   }
 
   #section-6 {
