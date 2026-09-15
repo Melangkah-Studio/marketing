@@ -10,7 +10,6 @@ export default defineConfig({
     prerenderEnvironment: "node",
   }),
   integrations: [sitemap({ filter: (page) => !page.endsWith("/404/") })],
-  output: "server",
   redirects: {
     "/analytics": "https://cloud.umami.is/share/fbMpK8dlvWeG41PO",
     "/contact": "https://wa.me/+6281357811710",
