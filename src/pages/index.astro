@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import FlowerOutline from "@/assets/imgs/flower-outline.png";
 import Hero from "@/assets/imgs/hero.png";
 import PeopleWalking from "@/assets/imgs/people-walking.png";
@@ -7,7 +6,12 @@ import PrivateWellness from "@/assets/imgs/portfolios/private-wellness.png";
 import TedxUB2025 from "@/assets/imgs/portfolios/tedx-ub-2025.png";
 import TedxUB2026 from "@/assets/imgs/portfolios/tedx-ub-2026.png";
 import TummyYammy from "@/assets/imgs/portfolios/tummyyammy.png";
+import Service1 from "@/assets/imgs/services/service-1.png";
+import Service2 from "@/assets/imgs/services/service-2.png";
+import Service3 from "@/assets/imgs/services/service-3.png";
+import Service4 from "@/assets/imgs/services/service-4.png";
 import Layout from "@/components/layout.astro";
+import { Image } from "astro:assets";
 ---
 
 <Layout>
@@ -113,7 +117,92 @@ import Layout from "@/components/layout.astro";
         </div>
       </div>
     </div>
-    <div id="section-4"></div>
+    <div id="section-4">
+      <h2>Things We Make & Explore</h2>
+      <div class="content-container">
+        <div class="content">
+          <span class="number">01</span>
+          <h3>Website & App Design</h3>
+          <div class="tags">
+            <span>Dashboard</span>
+            <span>Mobile App</span>
+            <span>E-Commerce</span>
+            <span>Prototyping</span>
+            <span>Landing Page</span>
+            <span>Company Profile</span>
+          </div>
+          <p>
+            We design websites and mobile experiences that balance clarity,
+            personality, and usability — turning ideas into digital products
+            that feel as good as they work.
+          </p>
+          <div class="image-container">
+            <Image alt="Website & App Design" src={Service1} />
+          </div>
+        </div>
+        <div class="content">
+          <span class="number">02</span>
+          <h3>Software Development</h3>
+          <div class="tags">
+            <span>Integrations</span>
+            <span>Experience Website</span>
+            <span>CMS</span>
+            <span>Website Responsive</span>
+            <span>Mobile App Development</span>
+          </div>
+          <p>
+            We bring designs to life through functional, responsive, and
+            purposeful digital experiences. Whether it's a marketing website or
+            a digital product, we build with the experience in mind from the
+            very first step
+          </p>
+          <div class="image-container">
+            <Image alt="Software Development" src={Service2} />
+          </div>
+        </div>
+        <div class="content">
+          <span class="number">03</span>
+          <h3>AI & ML Development</h3>
+          <div class="tags">
+            <span>RAG</span>
+            <span>AI Agents</span>
+            <span>AI Chatbots</span>
+            <span>OCR Solutions</span>
+            <span>Computer Vision</span>
+            <span>Machine Learning</span>
+          </div>
+          <p>
+            We explore how AI and emerging technologies can become part of the
+            way brands, products, and people work — from intelligent features to
+            new digital experiences.
+          </p>
+          <div class="image-container">
+            <Image alt="AI & ML Development" src={Service3} />
+          </div>
+        </div>
+        <div class="content">
+          <span class="number">04</span>
+          <h3>Melangkah</h3>
+          <div class="tags">
+            <span>AI Strategy</span>
+            <span>AI Consulting</span>
+            <span>AI Automation</span>
+            <span>AI Integration</span>
+            <span>Workflow Automation</span>
+          </div>
+          <p>
+            Our flagship end-to-end AI transformation service, helping
+            organizations turn emerging ideas into meaningful, working
+            solutions. From research and discovery to development,
+            implementation, and continuous performance monitoring, we stay with
+            the work from its first step to what comes next
+          </p>
+          <div class="image-container">
+            <Image alt="AI Transformation" src={Service4} />
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="section-5"></div>
     <div id="section-6">
       <div class="content-container">
@@ -124,7 +213,7 @@ import Layout from "@/components/layout.astro";
             trying to achieve, and what matters to you
           </p>
         </div>
-        <div class="divider"/>
+        <div class="divider" />
         <div class="content">
           <h3>We explore</h3>
           <p>
@@ -133,7 +222,7 @@ import Layout from "@/components/layout.astro";
             feels right.
           </p>
         </div>
-        <div class="divider"/>
+        <div class="divider" />
         <div class="content">
           <h3>We move together</h3>
           <p>
@@ -141,7 +230,7 @@ import Layout from "@/components/layout.astro";
             asking questions, and refining along the way.
           </p>
         </div>
-        <div class="divider"/>
+        <div class="divider" />
         <div class="content">
           <h3>We keep going</h3>
           <p>
@@ -510,8 +599,143 @@ import Layout from "@/components/layout.astro";
   }
 
   #section-4 {
-    height: 100vh;
-    background-color: blue;
+    position: relative;
+    background-color: white;
+  }
+
+  #section-4 h2 {
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  #section-4 .content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  #section-4 .content {
+    display: grid;
+    grid-template-areas:
+      "number title"
+      "description description"
+      "tags tags"
+      "image image";
+    grid-template-columns: 0.5fr 3fr;
+    padding: 1rem 0rem 1rem 0rem;
+  }
+
+  #section-4 .content:not(:last-child){
+    border-bottom: 1px solid #dcdcdc;
+  }
+
+  #section-4 .content .number {
+    grid-area: number;
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  #section-4 .content h3 {
+    grid-area: title;
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  #section-4 .content .tags {
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: tags;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: start;
+    padding-top: 1rem;
+  }
+
+  #section-4 .content .tags span {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+    text-wrap: nowrap;
+    text-decoration: none;
+    background-color: #edebde;
+  }
+
+  #section-4 .content p {
+    grid-area: description;
+    align-self: end;
+    padding-top: 2rem;
+    font-size: 1rem;
+    color: #333333;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  #section-4 .content .image-container {
+    grid-area: image;
+    width: 100%;
+    height: auto;
+    padding-top: 1rem;
+    overflow: hidden;
+  }
+
+  #section-4 .content img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.188 / 1;
+    pointer-events: none;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media (min-width: 768px) {
+    #section-4 h2 {
+      font-size: 3rem;
+    }
+
+    #section-4 .content {
+      grid-template-areas:
+        "number title tags"
+        "description description image";
+      grid-template-columns: 0.25fr 3fr 1.5fr;
+      padding: 2rem 0rem 4rem 0rem;
+    }
+
+    #section-4 .content .number {
+      align-self: self-start;
+      font-size: 2rem;
+    }
+
+    #section-4 .content h3 {
+      align-self: self-start;
+      font-size: 2rem;
+    }
+
+    #section-4 .content .tags {
+      padding-top: 0rem;
+    }
+
+    #section-4 .content .tags span {
+      font-size: 1rem;
+    }
+
+    #section-4 .content p {
+      font-size: 1.25rem;
+    }
+
+    #section-4 .content .image-container {
+      padding-top: 4rem;
+    }
   }
 
   #section-5 {
