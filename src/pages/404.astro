@@ -1,11 +1,11 @@
 ---
+import { Image } from "astro:assets";
 import Flower1 from "@/assets/imgs/flower-1.png";
 import Layout from "@/components/layout.astro";
 import { constant } from "@/lib/constant";
-import { Image } from "astro:assets";
 ---
 
-<Layout title={`404 — ${constant.APP_NAME}`}>
+<Layout canonical={false} noindex title={`404 — ${constant.APP_NAME}`}>
   <main>
     <Image alt="" class="flower-1" src={Flower1} />
     <div class="container">

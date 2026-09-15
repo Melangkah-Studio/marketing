@@ -3,26 +3,42 @@ import "@/styles/globals.css";
 import Umami from "./umami.astro";
 
 interface Props {
-  canonical?: string;
+  canonical?: false | string;
   description?: string;
+  noindex?: boolean;
   ogImage?: string;
   title?: string;
 }
 
 const {
-  title = "Melangkah Studio",
-  description = "always one step further.",
+  title = "Melangkah Studio — Digital Design, Software & AI",
+  description = "Melangkah Studio designs and builds thoughtful websites, apps, software, and AI solutions that turn human ideas into useful digital experiences.",
   canonical,
+  noindex = false,
   ogImage,
 } = Astro.props;
-const siteUrl = "https://melangkah-studio.com"; // TODO: update this to the actual domain when we have one
-const keywords = ["Melangkah Studio"]; // TODO: update this to the actual keywords when we have them
-const canonicalUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
+const siteUrl = Astro.site;
+const canonicalUrl =
+  canonical === false
+    ? undefined
+    : canonical || new URL(Astro.url.pathname, siteUrl).href;
 const ogImageUrl = ogImage
   ? new URL(ogImage, siteUrl).href
-  : `${siteUrl}/og-image.png`;
+  : new URL("/og-image.png", siteUrl).href;
 
-const jsonLd = {}; // TODO: add JSON-LD structured data when we have it
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    telephone: "+62 813-5781-1710",
+  },
+  email: "melangkahstd@gmail.com",
+  name: "Melangkah Studio",
+  sameAs: ["https://www.instagram.com/melangkahstudio/"],
+  url: new URL("/", siteUrl).href,
+};
 ---
 
 <!doctype html>
@@ -34,10 +50,10 @@ const jsonLd = {}; // TODO: add JSON-LD structured data when we have it
 
     <title>{title}</title>
     <meta content={description} name="description">
-    <meta content={keywords.join(", ")} name="keywords">
+    {noindex && <meta content="noindex, nofollow" name="robots" />}
 
     <!-- Canonical URL -->
-    <link href={canonicalUrl} rel="canonical">
+    {canonicalUrl && <link href={canonicalUrl} rel="canonical" />}
 
     <!-- Favicons -->
     <link href="/favicon.ico" rel="icon" type="image/x-icon">
@@ -46,9 +62,8 @@ const jsonLd = {}; // TODO: add JSON-LD structured data when we have it
     <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
     <link href="/site.webmanifest" rel="manifest">
 
-    <!-- TODO: Update theme color -->
     <!-- Theme Color -->
-    <!-- <meta name="theme-color" content="#eb0028"> -->
+    <meta content="#333333" name="theme-color">
 
     <!-- Preconnect for Google Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -64,17 +79,19 @@ const jsonLd = {}; // TODO: add JSON-LD structured data when we have it
     <meta content={title} property="og:title">
     <meta content={description} property="og:description">
     <meta content="website" property="og:type">
-    <meta content={canonicalUrl} property="og:url">
+    {canonicalUrl && <meta content={canonicalUrl} property="og:url" />}
     <meta content={ogImageUrl} property="og:image">
+    <meta content="1200" property="og:image:width">
+    <meta content="630" property="og:image:height">
+    <meta content="Melangkah Studio" property="og:image:alt">
     <meta content="Melangkah Studio" property="og:site_name">
 
     <!-- Twitter Card -->
-    <!-- <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@melangkahstudio">
-    <meta name="twitter:creator" content="@melangkahstudio">
-    <meta name="twitter:title" content={title}>
-    <meta name="twitter:description" content={description}>
-    <meta name="twitter:image" content={ogImageUrl}> -->
+    <meta content="summary_large_image" name="twitter:card">
+    <meta content={title} name="twitter:title">
+    <meta content={description} name="twitter:description">
+    <meta content={ogImageUrl} name="twitter:image">
+    <meta content="Melangkah Studio" name="twitter:image:alt">
 
     <!-- JSON-LD Structured Data -->
     <script
