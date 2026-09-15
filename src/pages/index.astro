@@ -115,7 +115,42 @@ import Layout from "@/components/layout.astro";
     </div>
     <div id="section-4"></div>
     <div id="section-5"></div>
-    <div id="section-6"></div>
+    <div id="section-6">
+      <div class="content-container">
+        <div class="content">
+          <h3>We listen</h3>
+          <p>
+            Every project starts by understanding where you are, what you're
+            trying to achieve, and what matters to you
+          </p>
+        </div>
+        <div class="divider"/>
+        <div class="content">
+          <h3>We explore</h3>
+          <p>
+            There is rarely only one way forward. We explore different ideas,
+            perspectives, and possibilities before finding the direction that
+            feels right.
+          </p>
+        </div>
+        <div class="divider"/>
+        <div class="content">
+          <h3>We move together</h3>
+          <p>
+            Design is a conversation. We work closely with you, sharing ideas,
+            asking questions, and refining along the way.
+          </p>
+        </div>
+        <div class="divider"/>
+        <div class="content">
+          <h3>We keep going</h3>
+          <p>
+            Good things take time. we learn from what we make, turn it better,
+            and keep moving forward until we find something worth holding on to.
+          </p>
+        </div>
+      </div>
+    </div>
     <div id="section-7"></div>
     <div id="section-8">
       <div class="people-walking-container">
@@ -485,8 +520,65 @@ import Layout from "@/components/layout.astro";
   }
 
   #section-6 {
-    height: 100vh;
-    background-color: red;
+    position: relative;
+    background-color: white;
+  }
+
+  #section-6 .content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  #section-6 .content {
+    display: grid;
+    grid-template-areas:
+      "title image"
+      "description image";
+    grid-template-columns: minmax(0, 1fr) 38%;
+    background: #edebde;
+  }
+
+  #section-6 .content h3 {
+    grid-area: title;
+    align-self: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  #section-6 .content p {
+    grid-area: description;
+    align-self: center;
+    padding: 2rem 1rem;
+    font-size: 1rem;
+    color: #333333;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 768px) {
+    #section-6 .content {
+      grid-template-areas: "title image description";
+      grid-template-columns: 1.6fr 1fr 1.6fr;
+    }
+
+    #section-6 .content h3 {
+      padding: 4rem 2rem;
+      font-size: 2rem;
+    }
+
+    #section-6 .content p {
+      padding: 4rem 2rem;
+      font-size: 1.25rem;
+    }
+  }
+
+  #section-6 .divider {
+    height: 1rem;
+    background-color: white;
   }
 
   #section-7 {
