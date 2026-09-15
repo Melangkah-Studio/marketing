@@ -5,7 +5,10 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: "compile",
+    prerenderEnvironment: "node",
+  }),
   integrations: [sitemap({ filter: (page) => !page.endsWith("/404/") })],
   output: "server",
   redirects: {

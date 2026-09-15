@@ -6,7 +6,15 @@ import Hero from "@/assets/imgs/hero.png";
 <section id="section-1">
   <h1 class="melangkah">Melangkah<span class="sr-only"> Studio</span></h1>
   <div class="hero-container">
-    <Image alt="Melangkah Studio Hero Image" class="hero" priority src={Hero} />
+    <Image
+      alt="Melangkah Studio Hero Image"
+      class="hero"
+      priority
+      sizes="100vw"
+      src={Hero}
+      width={1920}
+      widths={[640, 960, 1280, 1600, 1920]}
+    />
     <span aria-hidden="true" class="studio">Studio</span>
   </div>
 </section>
