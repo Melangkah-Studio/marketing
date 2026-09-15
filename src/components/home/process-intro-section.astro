@@ -9,10 +9,7 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
       <Image alt="A person moving through a sunlit field" src={HowWeMove} />
     </div>
     <div class="copy" data-scroll-zoom-copy>
-      <h2 class="title-intro" id="how-we-move-title">
-        <span>How we</span>
-        <span>move</span>
-      </h2>
+      <h2 class="title-intro" id="how-we-move-title">How we move</h2>
       <span aria-hidden="true" class="title-reveal">How we move</span>
       <p>
         There's more than one way to get there. We explore different ideas and
@@ -51,8 +48,7 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
       const finalHeight = window.innerHeight - inset * 2;
       const frameHeight = mix(initialHeight, finalHeight, expansion);
       const introExit = ease(clamp(progress / 0.42));
-      const introShift =
-        window.innerWidth * (isMobile ? 0.42 : 0.36) * introExit;
+      const introOffset = mix(0, -48, introExit);
       const reveal = ease(clamp((progress - 0.28) / 0.38));
       const revealOffset = mix(40, 0, reveal);
       const descriptionOpacity = ease(clamp((progress - 0.48) / 0.3));
@@ -60,8 +56,7 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
       frame.style.setProperty("--frame-height", `${frameHeight}px`);
       frame.style.setProperty("--frame-inset", `${inset}px`);
       copy.style.setProperty("--intro-opacity", `${1 - introExit}`);
-      copy.style.setProperty("--intro-left-shift", `${-introShift}px`);
-      copy.style.setProperty("--intro-right-shift", `${introShift}px`);
+      copy.style.setProperty("--intro-offset", `${introOffset}px`);
       copy.style.setProperty("--reveal-opacity", `${reveal}`);
       copy.style.setProperty("--reveal-offset", `${revealOffset}px`);
       copy.style.setProperty("--description-opacity", `${descriptionOpacity}`);
@@ -117,9 +112,8 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
 
   .copy {
     --description-opacity: 0;
-    --intro-left-shift: 0px;
+    --intro-offset: 0px;
     --intro-opacity: 1;
-    --intro-right-shift: 0px;
     --reveal-offset: 2.5rem;
     --reveal-opacity: 0;
 
@@ -142,25 +136,10 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
 
   .title-intro {
     top: 10svh;
-    display: flex;
-    gap: 0.22em;
     color: #333333;
     opacity: var(--intro-opacity);
-    transform: translate(-50%, -50%);
-    will-change: opacity;
-  }
-
-  .title-intro span {
-    display: block;
-    will-change: transform;
-  }
-
-  .title-intro span:first-child {
-    transform: translateX(var(--intro-left-shift));
-  }
-
-  .title-intro span:last-child {
-    transform: translateX(var(--intro-right-shift));
+    transform: translate(-50%, calc(-50% + var(--intro-offset)));
+    will-change: opacity, transform;
   }
 
   .title-reveal {
@@ -207,7 +186,6 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
 
     .frame,
     .title-intro,
-    .title-intro span,
     .title-reveal,
     p {
       will-change: auto;
