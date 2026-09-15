@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import FlowerOutline from "@/assets/imgs/flower-outline.png";
 import Hero from "@/assets/imgs/hero.png";
 import PeopleWalking from "@/assets/imgs/people-walking.png";
@@ -7,7 +8,6 @@ import TedxUB2025 from "@/assets/imgs/portfolios/tedx-ub-2025.png";
 import TedxUB2026 from "@/assets/imgs/portfolios/tedx-ub-2026.png";
 import TummyYammy from "@/assets/imgs/portfolios/tummyyammy.png";
 import Layout from "@/components/layout.astro";
-import { Image } from "astro:assets";
 ---
 
 <Layout>
@@ -36,9 +36,9 @@ import { Image } from "astro:assets";
       <h3>Some things we've made along the way</h3>
       <div class="container">
         <div class="portfolio" id="tummyyammy">
-          <div class="header">
-            <span class="title">Tummyyammy</span>
-            <span class="year">2025</span>
+          <div class="portfolio-header">
+            <span class="portfolio-title">Tummyyammy</span>
+            <span class="portfolio-year">2025</span>
           </div>
           <div
             class="image-container"
@@ -48,9 +48,9 @@ import { Image } from "astro:assets";
           </div>
         </div>
         <div class="portfolio" id="tedx-ub-2025">
-          <div class="header">
-            <span class="title">TEDxUniversitas Brawijaya</span>
-            <span class="year">2025</span>
+          <div class="portfolio-header">
+            <span class="portfolio-title">TEDxUniversitas Brawijaya</span>
+            <span class="portfolio-year">2025</span>
           </div>
           <div
             class="image-container"
@@ -60,9 +60,9 @@ import { Image } from "astro:assets";
           </div>
         </div>
         <div class="portfolio" id="tedx-ub-2026">
-          <div class="header">
-            <span class="title">TEDxUniversitas Brawijaya</span>
-            <span class="year">2026</span>
+          <div class="portfolio-header">
+            <span class="portfolio-title">TEDxUniversitas Brawijaya</span>
+            <span class="portfolio-year">2026</span>
           </div>
           <div
             class="image-container"
@@ -72,9 +72,9 @@ import { Image } from "astro:assets";
           </div>
         </div>
         <div class="portfolio" id="private-wellness">
-          <div class="header">
-            <span class="title">Private Wellness</span>
-            <span class="year">2026</span>
+          <div class="portfolio-header">
+            <span class="portfolio-title">Private Wellness</span>
+            <span class="portfolio-year">2026</span>
           </div>
           <div
             class="image-container"
@@ -85,7 +85,7 @@ import { Image } from "astro:assets";
         </div>
         <div class="portfolio">
           <div class="contact-card">
-            <span class="title">Got Something<br>in Mind?</span>
+            <span class="contact-title">Got Something<br>in Mind?</span>
             <a
               class="button"
               href="/contact"
@@ -388,21 +388,21 @@ import { Image } from "astro:assets";
     height: 100%;
   }
 
-  #section-3 .portfolio .header {
+  #section-3 .portfolio-header {
     display: flex;
     gap: 0.5rem;
     align-items: center;
     justify-content: space-between;
   }
 
-  #section-3 .portfolio .header .title {
+  #section-3 .portfolio-title {
     font-size: 1rem;
     font-weight: 500;
     color: #333333;
     letter-spacing: -0.05em;
   }
 
-  #section-3 .portfolio .header .year {
+  #section-3 .portfolio-year {
     font-size: 1rem;
     font-weight: 500;
     color: #333333;
@@ -437,7 +437,7 @@ import { Image } from "astro:assets";
     background-color: #333333;
   }
 
-  #section-3 .contact-card .title {
+  #section-3 .contact-title {
     font-size: 2rem;
     font-weight: 700;
     line-height: 0.95;
