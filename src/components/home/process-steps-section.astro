@@ -233,7 +233,7 @@ const steps = [
 
     .content {
       grid-template-areas: "title image description";
-      grid-template-columns: 1.6fr 1fr 1.6fr;
+      grid-template-columns: 1.2fr 1fr 1.6fr;
     }
 
     h3 {
@@ -247,7 +247,13 @@ const steps = [
     }
 
     .reveal-sticky {
-      justify-content: center;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1.6fr;
+    }
+
+    .reveal-frame {
+      grid-column: 2;
+      justify-self: center;
     }
   }
 
