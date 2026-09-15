@@ -4,21 +4,25 @@ import FlowerOutline from "@/assets/imgs/flower-outline.png";
 ---
 
 <section id="section-2">
-  <h2 data-text-reveal>Turning human ideas into digital things</h2>
-  <Image alt="Flower" src={FlowerOutline} />
-  <p>
-    Melangkah Studio is a small independent studio built around curiosity,
-    craft, and people
-  </p>
+  <div class="section-content">
+    <h2 data-text-reveal>Turning human ideas into digital things</h2>
+    <Image alt="Flower" src={FlowerOutline} />
+    <p>
+      Melangkah Studio is a small independent studio built around curiosity,
+      craft, and people
+    </p>
+  </div>
 </section>
 
 <script>
   const heading = document.querySelector<HTMLElement>(
     "#section-2 [data-text-reveal]"
   );
+  const section = document.querySelector<HTMLElement>("#section-2");
 
   if (
     heading &&
+    section &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches
   ) {
     const characters: HTMLElement[] = [];
@@ -51,14 +55,9 @@ import FlowerOutline from "@/assets/imgs/flower-outline.png";
         return;
       }
 
-      const bounds = heading.getBoundingClientRect();
-      const startPosition = window.innerHeight * 0.85;
-      const endPosition = window.innerHeight * 0.3;
-      const revealDistance = bounds.height + startPosition - endPosition;
-      const progress = Math.min(
-        Math.max((startPosition - bounds.top) / revealDistance, 0),
-        1
-      );
+      const bounds = section.getBoundingClientRect();
+      const revealDistance = bounds.height - window.innerHeight;
+      const progress = Math.min(Math.max(-bounds.top / revealDistance, 0), 1);
       const activeCharacter = Math.floor(progress * characters.length);
 
       for (const [index, character] of characters.entries()) {
@@ -93,7 +92,7 @@ import FlowerOutline from "@/assets/imgs/flower-outline.png";
       { rootMargin: "200px 0px", threshold: 0 }
     );
 
-    observer.observe(heading);
+    observer.observe(section);
     window.addEventListener("scroll", requestRevealUpdate, { passive: true });
     window.addEventListener("resize", requestRevealUpdate, { passive: true });
     requestRevealUpdate();
@@ -103,6 +102,12 @@ import FlowerOutline from "@/assets/imgs/flower-outline.png";
 <style>
   #section-2 {
     position: relative;
+    height: 200vh;
+  }
+
+  .section-content {
+    position: sticky;
+    top: 0;
     height: 100vh;
     overflow: hidden;
   }
@@ -137,6 +142,12 @@ import FlowerOutline from "@/assets/imgs/flower-outline.png";
     font-size: 1rem;
     color: #333333;
     letter-spacing: -0.05em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #section-2 {
+      height: 100vh;
+    }
   }
 
   @media (min-width: 425px) {
