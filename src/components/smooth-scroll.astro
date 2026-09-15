@@ -1,0 +1,20 @@
+---
+import "lenis/dist/lenis.css";
+---
+
+<script>
+  import Lenis from "lenis";
+
+  const lenis = new Lenis({
+    anchors: true,
+    autoRaf: true,
+    respectReducedMotion: true,
+    stopInertiaOnNavigate: true,
+  });
+
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      lenis.resize();
+    }
+  });
+</script>

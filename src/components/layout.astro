@@ -1,5 +1,6 @@
 ---
 import "@/styles/globals.css";
+import SmoothScroll from "./smooth-scroll.astro";
 import Umami from "./umami.astro";
 
 interface Props {
@@ -110,5 +111,6 @@ const jsonLd = {
   </head>
   <body>
     <slot />
+    <SmoothScroll />
   </body>
 </html>
