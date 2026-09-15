@@ -6,6 +6,7 @@
     "astro": "astro",
     "build": "astro build",
     "check": "ultracite check",
+    "deploy": "bun run build && wrangler deploy",
     "dev": "astro dev",
     "fix": "ultracite fix",
     "prepare": "lefthook install",
@@ -22,7 +23,8 @@
     "@biomejs/biome": "2.5.6",
     "lefthook": "^2.1.10",
     "typescript": "^6",
-    "ultracite": "7.10.5"
+    "ultracite": "7.10.5",
+    "wrangler": "^4.131.2"
   },
   "engines": {
     "node": ">=22.12.0"
