@@ -5,15 +5,15 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
 
 <section aria-labelledby="how-we-move-title" id="section-5">
   <div class="stage">
+    <div class="frame" data-scroll-zoom-frame>
+      <Image alt="A person moving through a sunlit field" src={HowWeMove} />
+    </div>
     <div class="copy" data-scroll-zoom-copy>
       <h2 id="how-we-move-title">How we move</h2>
       <p>
         There's more than one way to get there. We explore different ideas and
         perspectives to discover what feels right
       </p>
-    </div>
-    <div class="frame" data-scroll-zoom-frame>
-      <Image alt="A person moving through a sunlit field" src={HowWeMove} />
     </div>
   </div>
 </section>
@@ -28,40 +28,38 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
     let animationFrame = 0;
 
     const clamp = (value: number) => Math.min(1, Math.max(0, value));
-    const ease = (value: number) => 1 - (1 - value) ** 3;
+    const ease = (value: number) => value * value * (3 - 2 * value);
+    const mix = (start: number, end: number, progress: number) =>
+      start + (end - start) * progress;
 
     const render = () => {
       animationFrame = 0;
 
-      if (reducedMotion.matches) {
-        frame.style.setProperty("--frame-width", "calc(100vw - 2rem)");
-        frame.style.setProperty("--frame-height", "calc(100svh - 2rem)");
-        frame.style.setProperty("--frame-radius", "0px");
-        frame.style.setProperty("--image-scale", "1");
-        copy.style.setProperty("--copy-opacity", "0");
-        return;
-      }
-
       const bounds = section.getBoundingClientRect();
       const scrollDistance = Math.max(1, bounds.height - window.innerHeight);
-      const progress = clamp(-bounds.top / scrollDistance);
-      const zoomProgress = ease(clamp(progress / 0.9));
+      const progress = reducedMotion.matches
+        ? 1
+        : clamp(-bounds.top / scrollDistance);
+      const expansion = ease(clamp(progress / 0.88));
       const isMobile = window.innerWidth < 768;
-      const horizontalInset = isMobile ? 0.17 : 0.32;
-      const verticalInset = isMobile ? 0.3 : 0.29;
-      const width =
-        window.innerWidth * (1 - horizontalInset * 2 * (1 - zoomProgress));
-      const height =
-        window.innerHeight * (1 - verticalInset * 2 * (1 - zoomProgress));
-      const radius = (isMobile ? 24 : 32) * (1 - zoomProgress);
-      const imageScale = 1.08 - zoomProgress * 0.08;
-      const copyOpacity = 1 - ease(clamp((progress - 0.08) / 0.46));
+      const inset = isMobile ? 12 : 16;
+      const initialHeight = window.innerHeight * (isMobile ? 0.66 : 0.72);
+      const finalHeight = window.innerHeight - inset * 2;
+      const frameHeight = mix(initialHeight, finalHeight, expansion);
+      const initialTitleTop = window.innerHeight * (isMobile ? 0.09 : 0.1);
+      const titleTop = mix(initialTitleTop, window.innerHeight / 2, expansion);
+      const titleColorProgress = ease(clamp((progress - 0.18) / 0.42));
+      const titleColor = Math.round(mix(51, 255, titleColorProgress));
+      const descriptionOpacity = ease(clamp((progress - 0.48) / 0.3));
 
-      frame.style.setProperty("--frame-width", `${width}px`);
-      frame.style.setProperty("--frame-height", `${height}px`);
-      frame.style.setProperty("--frame-radius", `${radius}px`);
-      frame.style.setProperty("--image-scale", `${imageScale}`);
-      copy.style.setProperty("--copy-opacity", `${copyOpacity}`);
+      frame.style.setProperty("--frame-height", `${frameHeight}px`);
+      frame.style.setProperty("--frame-inset", `${inset}px`);
+      copy.style.setProperty("--title-top", `${titleTop}px`);
+      copy.style.setProperty(
+        "--title-color",
+        `rgb(${titleColor} ${titleColor} ${titleColor})`
+      );
+      copy.style.setProperty("--description-opacity", `${descriptionOpacity}`);
     };
 
     const scheduleRender = () => {
@@ -80,7 +78,7 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
 <style>
   #section-5 {
     position: relative;
-    height: 220svh;
+    height: 200svh;
     background-color: white;
   }
 
@@ -91,55 +89,17 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
     overflow: hidden;
   }
 
-  .copy {
-    --copy-opacity: 1;
-
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    color: #333333;
-    opacity: var(--copy-opacity);
-    will-change: opacity;
-  }
-
-  h2,
-  p {
-    position: absolute;
-    top: 50%;
-    letter-spacing: -0.05em;
-    transform: translateY(-50%);
-  }
-
-  h2 {
-    left: 1rem;
-    font-size: clamp(1.75rem, 4vw, 4rem);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  p {
-    right: 1rem;
-    width: min(27vw, 24rem);
-    font-size: clamp(1rem, 1.45vw, 1.4rem);
-    text-wrap: balance;
-  }
-
   .frame {
-    --frame-height: 42svh;
-    --frame-radius: 2rem;
-    --frame-width: 36vw;
-    --image-scale: 1.08;
+    --frame-height: 72svh;
+    --frame-inset: 1rem;
 
     position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 2;
-    width: var(--frame-width);
+    right: var(--frame-inset);
+    bottom: var(--frame-inset);
+    left: var(--frame-inset);
     height: var(--frame-height);
     overflow: hidden;
-    border-radius: var(--frame-radius);
-    transform: translate(-50%, -50%);
-    will-change: width, height, border-radius;
+    will-change: height;
   }
 
   .frame img {
@@ -148,33 +108,59 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
     pointer-events: none;
     object-fit: cover;
     object-position: center;
-    transform: scale(var(--image-scale));
-    will-change: transform;
+  }
+
+  .copy {
+    --description-opacity: 0;
+    --title-color: #333333;
+    --title-top: 10svh;
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  h2 {
+    position: absolute;
+    top: var(--title-top);
+    left: 50%;
+    font-size: clamp(2rem, 5vw, 5rem);
+    font-weight: 600;
+    color: var(--title-color);
+    text-align: center;
+    letter-spacing: -0.06em;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    will-change: top, color;
+  }
+
+  p {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    width: min(40vw, 24rem);
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: white;
+    letter-spacing: -0.05em;
+    opacity: var(--description-opacity);
+    will-change: opacity;
   }
 
   @media (max-width: 767px) {
-    h2,
-    p {
-      left: 1rem;
-      width: calc(100% - 2rem);
-      transform: none;
-    }
-
-    h2 {
-      top: 10%;
-    }
-
-    p {
-      top: auto;
-      right: auto;
-      bottom: 8%;
-      max-width: 24rem;
-    }
-
     .frame {
-      --frame-height: 40svh;
-      --frame-radius: 1.5rem;
-      --frame-width: 66vw;
+      --frame-height: 66svh;
+      --frame-inset: 0.75rem;
+    }
+
+    .copy {
+      --title-top: 9svh;
+    }
+
+    p {
+      bottom: 1.75rem;
+      left: 1.75rem;
+      width: calc(100% - 3.5rem);
     }
   }
 
@@ -184,7 +170,8 @@ import HowWeMove from "@/assets/imgs/how-we-move.png";
     }
 
     .frame,
-    .frame img {
+    h2,
+    p {
       will-change: auto;
     }
   }
