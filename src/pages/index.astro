@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import FlowerOutline from "@/assets/imgs/flower-outline.png";
 import Hero from "@/assets/imgs/hero.png";
+import PeopleWalking from "@/assets/imgs/people-walking.png";
 import Layout from "@/components/layout.astro";
 ---
 
@@ -27,23 +28,89 @@ import Layout from "@/components/layout.astro";
         craft, and people
       </p>
     </div>
-    <div id="section-3">
-
-    </div>
-    <div id="section-4">
-
-    </div>
-    <div id="section-5">
-
-    </div>
-    <div id="section-6">
-
-    </div>
-    <div id="section-7">
-
-    </div>
+    <div id="section-3"></div>
+    <div id="section-4"></div>
+    <div id="section-5"></div>
+    <div id="section-6"></div>
+    <div id="section-7"></div>
     <div id="section-8">
+      <div class="people-walking-container">
+        <Image alt="People Walking" src={PeopleWalking} />
+      </div>
+      <div class="header">
+        <h3>
+          Maybe you've got an idea. Maybe you've just got a feeling that
+          something could be better. <br>
+          Have a project in mind?
+        </h3>
+        <a
+          class="button"
+          href="/contact"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <span>Let's make it happen together</span>
+          <svg
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 20 20"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Arrow Right</title>
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <div class="footer">
+        <div class="socials">
+          <a
+            href="https://www.instagram.com/melangkahstudio/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              height="32"
+              viewBox="0 0 24 24"
+              width="32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Instagram</title>
+              <path
+                d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"
+                fill="currentColor"
+              />
+            </svg>
+            @melangkahstudio
+          </a>
+          <a
+            href="mailto:melangkahstd@gmail.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              height="32"
+              viewBox="0 0 24 24"
+              width="32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Email</title>
+              <path
+                d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0l-8 5l-8-5zm0 12H4V8l8 5l8-5z"
+                fill="currentColor"
+              />
+            </svg>
+            melangkahstd@gmail.com
+          </a>
+        </div>
 
+        <h2>Melangkah Studio</h2>
+      </div>
     </div>
   </main>
 </Layout>
@@ -213,7 +280,183 @@ import Layout from "@/components/layout.astro";
   }
 
   #section-8 {
+    position: relative;
     height: 100vh;
-    background-color: orange;
+    color: white;
+    background-color: #333333;
+  }
+
+  #section-8 .people-walking-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80%;
+    overflow: hidden;
+  }
+
+  #section-8 .people-walking-container img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    aspect-ratio: 2.099 / 1;
+    pointer-events: none;
+    object-fit: cover;
+    object-position: 17.5% bottom;
+  }
+
+  #section-8 .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
+
+  #section-8 .header h3 {
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+  }
+
+  #section-8 .header .button {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    width: fit-content;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+  }
+
+  #section-8 .header .button svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  #section-8 .header .button:focus {
+    text-decoration: underline;
+    outline: none;
+  }
+
+  #section-8 .header .button:hover {
+    text-decoration: underline;
+  }
+
+  #section-8 .footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  #section-8 .footer .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: end;
+    justify-content: end;
+  }
+
+  #section-8 .footer .socials a {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    letter-spacing: -0.05em;
+    text-decoration: none;
+  }
+
+  #section-8 .footer .socials a svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  #section-8 .footer .socials a:focus {
+    text-decoration: underline;
+    outline: none;
+  }
+
+  #section-8 .footer .socials a:hover {
+    text-decoration: underline;
+  }
+
+  #section-8 .footer h2 {
+    font-size: 3.7rem;
+    font-weight: 700;
+    color: white;
+    text-align: right;
+    letter-spacing: -0.05em;
+  }
+
+  @media (min-width: 425px) {
+    #section-8 .header h3 {
+      font-size: 2.5rem;
+    }
+
+    #section-8 .header .button {
+      font-size: 1rem;
+    }
+
+    #section-8 .footer h2 {
+      font-size: 4rem;
+    }
+
+    #section-8 .footer .socials {
+      gap: 1rem;
+    }
+
+    #section-8 .footer .socials a {
+      font-size: 1.25rem;
+    }
+
+    #section-8 .footer .socials a svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    #section-8 .header h3 {
+      font-size: 3rem;
+    }
+
+    #section-8 .footer h2 {
+      font-size: 5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    #section-8 .header h3 {
+      font-size: 3.5rem;
+    }
+
+    #section-8 .footer h2 {
+      font-size: 6rem;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    #section-8 .header h3 {
+      font-size: 4rem;
+    }
+
+    #section-8 .footer h2 {
+      font-size: 7rem;
+    }
   }
 </style>
