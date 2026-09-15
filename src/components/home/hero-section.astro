@@ -4,10 +4,10 @@ import Hero from "@/assets/imgs/hero.png";
 ---
 
 <section id="section-1">
-  <h2 class="melangkah">Melangkah</h2>
+  <h1 class="melangkah">Melangkah<span class="sr-only"> Studio</span></h1>
   <div class="hero-container">
     <Image alt="Melangkah Studio Hero Image" class="hero" priority src={Hero} />
-    <h2 class="studio">Studio</h2>
+    <span aria-hidden="true" class="studio">Studio</span>
   </div>
 </section>
 
@@ -30,6 +30,18 @@ import Hero from "@/assets/imgs/hero.png";
     color: #333333;
     letter-spacing: -0.05em;
     text-box: trim-end cap alphabetic;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
   }
 
   .hero-container {
