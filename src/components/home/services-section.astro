@@ -69,11 +69,11 @@ const services = [
 
 <section id="section-4">
   <h2>Things We Make & Explore</h2>
-  <div class="content-container">
+  <div class="content-container" style={`--stack-count: ${services.length};`}>
     {services.map((service, index) => (
         <article
           class="content"
-          style={`--stack-index: ${index}; --stack-count: ${services.length};`}
+          style={`--stack-index: ${index};`}
         >
           <span class="number">{String(index + 1).padStart(2, "0")}</span>
           <h3>{service.title}</h3>
@@ -112,16 +112,22 @@ const services = [
     padding: 1rem;
   }
 
+  .content-container::after {
+    flex: none;
+    height: 50svh;
+    content: "";
+  }
+
   .content {
-    --stack-step: 4.5rem;
+    --stack-step: 8.5rem;
 
     position: sticky;
     top: calc(1rem + var(--stack-index) * var(--stack-step));
     display: grid;
     grid-template-areas:
       "number title"
-      "description description"
       "tags tags"
+      "description description"
       "image image";
     grid-template-columns: 0.5fr 3fr;
     min-height: calc(
@@ -270,6 +276,10 @@ const services = [
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .content-container::after {
+      display: none;
+    }
+
     .content {
       position: relative;
       top: auto;
