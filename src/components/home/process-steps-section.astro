@@ -1,0 +1,102 @@
+---
+const steps = [
+  {
+    description:
+      "Every project starts by understanding where you are, what you're trying to achieve, and what matters to you",
+    title: "We listen",
+  },
+  {
+    description:
+      "There is rarely only one way forward. We explore different ideas, perspectives, and possibilities before finding the direction that feels right.",
+    title: "We explore",
+  },
+  {
+    description:
+      "Design is a conversation. We work closely with you, sharing ideas, asking questions, and refining along the way.",
+    title: "We move together",
+  },
+  {
+    description:
+      "Good things take time. we learn from what we make, turn it better, and keep moving forward until we find something worth holding on to.",
+    title: "We keep going",
+  },
+];
+---
+
+<section id="section-6">
+  <div class="content-container">
+    {steps.map((step, index) => (
+        <>
+          {index > 0 && <div class="divider" />}
+          <article class="content">
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        </>
+      ))}
+  </div>
+</section>
+
+<style>
+  #section-6 {
+    position: relative;
+    background-color: white;
+  }
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .content {
+    display: grid;
+    grid-template-areas:
+      "title image"
+      "description image";
+    grid-template-columns: minmax(0, 1fr) 38%;
+    background: #edebde;
+  }
+
+  h3 {
+    grid-area: title;
+    align-self: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  p {
+    grid-area: description;
+    align-self: center;
+    padding: 2rem 1rem;
+    font-size: 1rem;
+    color: #333333;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .divider {
+    height: 1rem;
+    background-color: white;
+  }
+
+  @media (min-width: 768px) {
+    .content {
+      grid-template-areas: "title image description";
+      grid-template-columns: 1.6fr 1fr 1.6fr;
+    }
+
+    h3 {
+      padding: 4rem 2rem;
+      font-size: 2rem;
+    }
+
+    p {
+      padding: 4rem 2rem;
+      font-size: 1.25rem;
+    }
+  }
+</style>
