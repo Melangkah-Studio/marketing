@@ -52,12 +52,15 @@ const steps = [
     </div>
 
     <div class="steps-list">
-      {steps.map((step) => (
-          <article class="content" data-reveal-row>
-            <h3>{step.title}</h3>
-            <p>{step.description}</p>
-            <Image alt="" class="static-image" src={step.image} />
-          </article>
+      {steps.map((step, index) => (
+          <>
+            <article class="content" data-reveal-row>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+              <Image alt="" class="static-image" src={step.image} />
+            </article>
+            {index < steps.length - 1 && <div class="divider" />}
+          </>
         ))}
     </div>
   </div>
@@ -128,17 +131,18 @@ const steps = [
   }
 
   .content-container {
-    --reveal-height: min(31.8vw, 8.5rem);
+    --item-height: 16rem;
     --reveal-width: min(35vw, 9.375rem);
 
     position: relative;
+    display: grid;
     padding: 1rem;
   }
 
   .steps-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    grid-area: 1 / 1;
   }
 
   .content {
@@ -147,8 +151,15 @@ const steps = [
       "title image"
       "description image";
     grid-template-columns: minmax(0, 1fr) 38%;
-    min-height: 16rem;
+    height: var(--item-height);
     background: #edebde;
+  }
+
+  .divider {
+    position: relative;
+    z-index: 2;
+    height: 1rem;
+    background-color: white;
   }
 
   h3 {
@@ -173,10 +184,11 @@ const steps = [
 
   .reveal-layer {
     position: sticky;
-    top: calc(50vh - var(--reveal-height) / 2);
+    top: calc(50vh - var(--item-height) / 2);
     z-index: 1;
-    height: var(--reveal-height);
-    margin-bottom: calc(-1 * var(--reveal-height));
+    grid-area: 1 / 1;
+    align-self: start;
+    height: var(--item-height);
     pointer-events: none;
   }
 
@@ -189,7 +201,7 @@ const steps = [
   .reveal-frame {
     position: relative;
     width: var(--reveal-width);
-    height: var(--reveal-height);
+    height: 100%;
     overflow: hidden;
   }
 
@@ -209,20 +221,19 @@ const steps = [
     grid-area: image;
     align-self: center;
     width: 100%;
-    aspect-ratio: 1.1 / 1;
+    height: 100%;
     object-fit: cover;
   }
 
   @media (min-width: 768px) {
     .content-container {
-      --reveal-height: min(22.73vw, 18.75rem);
+      --item-height: clamp(18.75rem, 45vh, 27rem);
       --reveal-width: min(25vw, 20.625rem);
     }
 
     .content {
       grid-template-areas: "title image description";
       grid-template-columns: 1.6fr 1fr 1.6fr;
-      min-height: clamp(18.75rem, 45vh, 27rem);
     }
 
     h3 {

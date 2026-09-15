@@ -25,7 +25,7 @@ The transition boundary, frame crop, stacking order, row alignment, and sticky r
 No actionable P0, P1, or P2 differences remain for the requested animation behavior.
 
 - Fonts and typography: existing project typography and hierarchy are preserved; no clipping or unintended wrapping was found.
-- Spacing and layout rhythm: the image frame stays centered on desktop and right-aligned on mobile while rows pass behind it.
+- Spacing and layout rhythm: the image frame matches one row's height, stays centered on desktop and right-aligned on mobile, and renders beneath the white dividers.
 - Colors and visual tokens: the existing white and warm neutral section colors are unchanged.
 - Image quality and asset fidelity: the four existing process images are compiled through Astro image optimization and use a consistent crop.
 - Copy and content: all existing process titles and descriptions are retained.
@@ -36,6 +36,9 @@ No actionable P0, P1, or P2 differences remain for the requested animation behav
 - Initial finding [P1]: the sticky frame scrolled away because the page wrapper used `overflow: hidden`.
 - Fix: changed the wrapper to horizontal clipping only, preserving overflow protection without creating a non-scrolling sticky container.
 - Post-fix evidence: desktop and mobile browser captures show the frame remaining fixed while successive images reveal across row boundaries.
+- Follow-up finding [P1]: the frame height differed from the row height, crossed above the divider, and could exceed the final row boundary.
+- Fix: made the frame inherit the row height, restored explicit foreground dividers, and replaced the negative-margin overlay with a shared grid area.
+- Post-fix evidence: desktop and mobile captures show equal frame and row heights, uninterrupted white dividers, and the final image ending before the contact section.
 
 ## Implementation checklist
 
