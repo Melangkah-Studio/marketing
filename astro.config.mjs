@@ -1,10 +1,13 @@
 // @ts-check
+import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
+  adapter: cloudflare(),
   integrations: [sitemap({ filter: (page) => !page.endsWith("/404/") })],
+  output: "server",
   redirects: {
     "/analytics": "https://cloud.umami.is/share/fbMpK8dlvWeG41PO",
     "/contact": "https://wa.me/+6281357811710",
