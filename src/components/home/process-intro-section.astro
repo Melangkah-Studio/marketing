@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import HowWeMove from "@/assets/imgs/how-we-move.png";
+---
+
+<section id="section-5">
+  <div class="hole">
+    <Image alt="How We Move" src={HowWeMove} />
+    <h2>How we move</h2>
+    <p>
+      There's more than one way to get there. We explore different ideas and
+      perspectives to discover what feels right
+    </p>
+  </div>
+</section>
+
+<style>
+  #section-5 {
+    position: relative;
+    height: 100vh;
+    background-color: white;
+  }
+
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: 1.78 / 1;
+    pointer-events: none;
+    object-fit: cover;
+    object-position: center;
+    transform: translate(-50%, -50%);
+  }
+
+  .hole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100vw - 2rem);
+    height: calc(100vh - 2rem);
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+  }
+
+  h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    letter-spacing: -0.05em;
+    text-wrap: nowrap;
+    transform: translate(-50%, -50%);
+  }
+
+  p {
+    position: absolute;
+    bottom: calc(0% + 1rem);
+    left: calc(0% + 1rem);
+    width: 80%;
+    font-size: 1rem;
+    color: white;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 425px) {
+    h2 {
+      font-size: 3rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    h2 {
+      font-size: 4rem;
+    }
+
+    p {
+      width: 60%;
+      font-size: 1.5rem;
+    }
+  }
+</style>

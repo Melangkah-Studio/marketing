@@ -1,0 +1,231 @@
+---
+import { Image } from "astro:assets";
+import Service1 from "@/assets/imgs/services/service-1.png";
+import Service2 from "@/assets/imgs/services/service-2.png";
+import Service3 from "@/assets/imgs/services/service-3.png";
+import Service4 from "@/assets/imgs/services/service-4.png";
+
+const services = [
+  {
+    alt: "Website & App Design",
+    description:
+      "We design websites and mobile experiences that balance clarity, personality, and usability — turning ideas into digital products that feel as good as they work.",
+    image: Service1,
+    tags: [
+      "Dashboard",
+      "Mobile App",
+      "E-Commerce",
+      "Prototyping",
+      "Landing Page",
+      "Company Profile",
+    ],
+    title: "Website & App Design",
+  },
+  {
+    alt: "Software Development",
+    description:
+      "We bring designs to life through functional, responsive, and purposeful digital experiences. Whether it's a marketing website or a digital product, we build with the experience in mind from the very first step",
+    image: Service2,
+    tags: [
+      "Integrations",
+      "Experience Website",
+      "CMS",
+      "Website Responsive",
+      "Mobile App Development",
+    ],
+    title: "Software Development",
+  },
+  {
+    alt: "AI & ML Development",
+    description:
+      "We explore how AI and emerging technologies can become part of the way brands, products, and people work — from intelligent features to new digital experiences.",
+    image: Service3,
+    tags: [
+      "RAG",
+      "AI Agents",
+      "AI Chatbots",
+      "OCR Solutions",
+      "Computer Vision",
+      "Machine Learning",
+    ],
+    title: "AI & ML Development",
+  },
+  {
+    alt: "AI Transformation",
+    description:
+      "Our flagship end-to-end AI transformation service, helping organizations turn emerging ideas into meaningful, working solutions. From research and discovery to development, implementation, and continuous performance monitoring, we stay with the work from its first step to what comes next",
+    image: Service4,
+    tags: [
+      "AI Strategy",
+      "AI Consulting",
+      "AI Automation",
+      "AI Integration",
+      "Workflow Automation",
+    ],
+    title: "Melangkah",
+  },
+];
+---
+
+<section id="section-4">
+  <h2>Things We Make & Explore</h2>
+  <div class="content-container">
+    {services.map((service, index) => (
+        <article class="content">
+          <span class="number">{String(index + 1).padStart(2, "0")}</span>
+          <h3>{service.title}</h3>
+          <div class="tags">
+            {service.tags.map((tag) => (
+              <span>{tag}</span>
+            ))}
+          </div>
+          <p>{service.description}</p>
+          <div class="image-container">
+            <Image alt={service.alt} src={service.image} />
+          </div>
+        </article>
+      ))}
+  </div>
+</section>
+
+<style>
+  #section-4 {
+    position: relative;
+    background-color: white;
+  }
+
+  h2 {
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .content {
+    display: grid;
+    grid-template-areas:
+      "number title"
+      "description description"
+      "tags tags"
+      "image image";
+    grid-template-columns: 0.5fr 3fr;
+    padding: 1rem 0;
+  }
+
+  .content:not(:last-child) {
+    border-bottom: 1px solid #dcdcdc;
+  }
+
+  .number {
+    grid-area: number;
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  .content h3 {
+    grid-area: title;
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    grid-area: tags;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: start;
+    padding-top: 1rem;
+  }
+
+  .tags span {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: -0.05em;
+    text-wrap: nowrap;
+    text-decoration: none;
+    background-color: #edebde;
+  }
+
+  .content p {
+    grid-area: description;
+    align-self: end;
+    padding-top: 2rem;
+    font-size: 1rem;
+    color: #333333;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .image-container {
+    grid-area: image;
+    width: 100%;
+    height: auto;
+    padding-top: 1rem;
+    overflow: hidden;
+  }
+
+  .content img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.188 / 1;
+    pointer-events: none;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media (min-width: 768px) {
+    h2 {
+      font-size: 3rem;
+    }
+
+    .content {
+      grid-template-areas:
+        "number title tags"
+        "description description image";
+      grid-template-columns: 0.25fr 3fr 1.5fr;
+      padding: 2rem 0 4rem;
+    }
+
+    .number {
+      align-self: self-start;
+      font-size: 2rem;
+    }
+
+    .content h3 {
+      align-self: self-start;
+      font-size: 2rem;
+    }
+
+    .tags {
+      padding-top: 0;
+    }
+
+    .tags span {
+      font-size: 1rem;
+    }
+
+    .content p {
+      font-size: 1.25rem;
+    }
+
+    .image-container {
+      padding-top: 4rem;
+    }
+  }
+</style>
