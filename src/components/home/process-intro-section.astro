@@ -3,89 +3,195 @@ import { Image } from "astro:assets";
 import HowWeMove from "@/assets/imgs/how-we-move.png";
 ---
 
-<section id="section-5">
-  <div class="hole">
-    <Image alt="How We Move" src={HowWeMove} />
-    <h2>How we move</h2>
-    <p>
-      There's more than one way to get there. We explore different ideas and
-      perspectives to discover what feels right
-    </p>
+<section aria-labelledby="how-we-move-title" id="section-5">
+  <div class="stage">
+    <div class="frame" data-scroll-zoom-frame>
+      <Image alt="A person moving through a sunlit field" src={HowWeMove} />
+    </div>
+    <div class="copy" data-scroll-zoom-copy>
+      <h2 class="title-intro" id="how-we-move-title">How we move</h2>
+      <span aria-hidden="true" class="title-reveal">How we move</span>
+      <p>
+        There's more than one way to get there. We explore different ideas and
+        perspectives to discover what feels right
+      </p>
+    </div>
   </div>
 </section>
+
+<script>
+  const section = document.querySelector<HTMLElement>("#section-5");
+  const frame = section?.querySelector<HTMLElement>("[data-scroll-zoom-frame]");
+  const copy = section?.querySelector<HTMLElement>("[data-scroll-zoom-copy]");
+
+  if (section && frame && copy) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+
+    const clamp = (value: number) => Math.min(1, Math.max(0, value));
+    const ease = (value: number) => value * value * (3 - 2 * value);
+    const mix = (start: number, end: number, progress: number) =>
+      start + (end - start) * progress;
+
+    const render = () => {
+      animationFrame = 0;
+
+      const bounds = section.getBoundingClientRect();
+      const scrollDistance = Math.max(1, bounds.height - window.innerHeight);
+      const progress = reducedMotion.matches
+        ? 1
+        : clamp(-bounds.top / scrollDistance);
+      const expansion = ease(clamp(progress / 0.88));
+      const isMobile = window.innerWidth < 768;
+      const inset = isMobile ? 12 : 16;
+      const initialHeight = window.innerHeight * (isMobile ? 0.66 : 0.72);
+      const finalHeight = window.innerHeight - inset * 2;
+      const frameHeight = mix(initialHeight, finalHeight, expansion);
+      const introExit = ease(clamp(progress / 0.42));
+      const introOffset = mix(0, -48, introExit);
+      const reveal = ease(clamp((progress - 0.28) / 0.38));
+      const revealOffset = mix(40, 0, reveal);
+      const descriptionOpacity = ease(clamp((progress - 0.48) / 0.3));
+
+      frame.style.setProperty("--frame-height", `${frameHeight}px`);
+      frame.style.setProperty("--frame-inset", `${inset}px`);
+      copy.style.setProperty("--intro-opacity", `${1 - introExit}`);
+      copy.style.setProperty("--intro-offset", `${introOffset}px`);
+      copy.style.setProperty("--reveal-opacity", `${reveal}`);
+      copy.style.setProperty("--reveal-offset", `${revealOffset}px`);
+      copy.style.setProperty("--description-opacity", `${descriptionOpacity}`);
+    };
+
+    const scheduleRender = () => {
+      if (animationFrame === 0) {
+        animationFrame = window.requestAnimationFrame(render);
+      }
+    };
+
+    render();
+    window.addEventListener("scroll", scheduleRender, { passive: true });
+    window.addEventListener("resize", scheduleRender);
+    reducedMotion.addEventListener("change", scheduleRender);
+  }
+</script>
 
 <style>
   #section-5 {
     position: relative;
-    height: 100vh;
+    height: 200svh;
     background-color: white;
   }
 
-  img {
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .frame {
+    --frame-height: 72svh;
+    --frame-inset: 1rem;
+
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
-    aspect-ratio: 1.78 / 1;
+    right: var(--frame-inset);
+    bottom: var(--frame-inset);
+    left: var(--frame-inset);
+    height: var(--frame-height);
+    overflow: hidden;
+    will-change: height;
+  }
+
+  .frame img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100svh - var(--frame-inset) * 2);
     pointer-events: none;
     object-fit: cover;
     object-position: center;
-    transform: translate(-50%, -50%);
   }
 
-  .hole {
+  .copy {
+    --description-opacity: 0;
+    --intro-offset: 0px;
+    --intro-opacity: 1;
+    --reveal-offset: 2.5rem;
+    --reveal-opacity: 0;
+
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: calc(100vw - 2rem);
-    height: calc(100vh - 2rem);
-    overflow: hidden;
-    transform: translate(-50%, -50%);
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
   }
 
-  h2 {
+  .title-intro,
+  .title-reveal {
     position: absolute;
-    top: 50%;
     left: 50%;
-    font-size: 2rem;
+    font-size: clamp(2rem, 5vw, 5rem);
     font-weight: 600;
-    color: white;
     text-align: center;
-    letter-spacing: -0.05em;
-    text-wrap: nowrap;
-    transform: translate(-50%, -50%);
+    letter-spacing: -0.06em;
+    white-space: nowrap;
+  }
+
+  .title-intro {
+    top: 10svh;
+    color: #333333;
+    opacity: var(--intro-opacity);
+    transform: translate(-50%, calc(-50% + var(--intro-offset)));
+    will-change: opacity, transform;
+  }
+
+  .title-reveal {
+    top: 50%;
+    color: white;
+    opacity: var(--reveal-opacity);
+    transform: translate(-50%, calc(-50% + var(--reveal-offset)));
+    will-change: opacity, transform;
   }
 
   p {
     position: absolute;
-    bottom: calc(0% + 1rem);
-    left: calc(0% + 1rem);
-    width: 80%;
-    font-size: 1rem;
+    bottom: 2rem;
+    left: 2rem;
+    width: min(40vw, 24rem);
+    font-size: clamp(1rem, 2vw, 1.5rem);
     color: white;
     letter-spacing: -0.05em;
-    text-wrap: balance;
+    opacity: var(--description-opacity);
+    will-change: opacity;
   }
 
-  @media (min-width: 425px) {
-    h2 {
-      font-size: 3rem;
+  @media (max-width: 767px) {
+    .frame {
+      --frame-height: 66svh;
+      --frame-inset: 0.75rem;
+    }
+
+    .title-intro {
+      top: 9svh;
     }
 
     p {
-      font-size: 1.25rem;
+      bottom: 1.75rem;
+      left: 1.75rem;
+      width: calc(100% - 3.5rem);
     }
   }
 
-  @media (min-width: 768px) {
-    h2 {
-      font-size: 4rem;
+  @media (prefers-reduced-motion: reduce) {
+    #section-5 {
+      height: 100svh;
     }
 
+    .frame,
+    .title-intro,
+    .title-reveal,
     p {
-      width: 60%;
-      font-size: 1.5rem;
+      will-change: auto;
     }
   }
 </style>
