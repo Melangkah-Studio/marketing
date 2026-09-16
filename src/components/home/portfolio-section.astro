@@ -46,58 +46,117 @@ const portfolios = [
 ---
 
 <section id="section-3">
-  <h3>Some things we've made along the way</h3>
-  <div class="container">
-    {portfolios.map((portfolio) => (
-        <article class="portfolio" id={portfolio.id}>
-          <div class="portfolio-header">
-            <span class="portfolio-title">{portfolio.title}</span>
-            <span class="portfolio-year">{portfolio.year}</span>
-          </div>
-          <div
-            class="image-container"
-            style={`--aspect-ratio-x: ${portfolio.aspectRatio}; --height: ${portfolio.height};`}
+  <div class="viewport">
+    <h3>Some things we've made along the way</h3>
+    <div class="container">
+      {portfolios.map((portfolio) => (
+          <article class="portfolio" id={portfolio.id}>
+            <div class="portfolio-header">
+              <span class="portfolio-title">{portfolio.title}</span>
+              <span class="portfolio-year">{portfolio.year}</span>
+            </div>
+            <div
+              class="image-container"
+              style={`--aspect-ratio-x: ${portfolio.aspectRatio}; --height: ${portfolio.height};`}
+            >
+              <Image alt={portfolio.alt} src={portfolio.image} />
+            </div>
+          </article>
+        ))}
+      <div class="portfolio">
+        <div class="contact-card">
+          <span class="contact-title">Got Something<br>in Mind?</span>
+          <a
+            class="button"
+            href="/contact/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <Image alt={portfolio.alt} src={portfolio.image} />
-          </div>
-        </article>
-      ))}
-    <div class="portfolio">
-      <div class="contact-card">
-        <span class="contact-title">Got Something<br>in Mind?</span>
-        <a
-          class="button"
-          href="/contact/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <span>We'd love to hear about it</span>
-          <svg
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 20 20"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Arrow Right</title>
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
-          </svg>
-        </a>
+            <span>We'd love to hear about it</span>
+            <svg
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 20 20"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Arrow Right</title>
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<script>
+  const section = document.querySelector<HTMLElement>("#section-3");
+  const viewport = section?.querySelector<HTMLElement>(".viewport");
+  const container = section?.querySelector<HTMLElement>(".container");
+
+  if (section && viewport && container) {
+    let horizontalDistance = 0;
+    let frameId = 0;
+
+    const render = () => {
+      frameId = 0;
+
+      const verticalDistance = section.offsetHeight - viewport.offsetHeight;
+      const sectionTop = section.getBoundingClientRect().top;
+      const progress =
+        verticalDistance > 0
+          ? Math.min(Math.max(-sectionTop / verticalDistance, 0), 1)
+          : 0;
+
+      container.style.transform = `translate3d(${-horizontalDistance * progress}px, 0, 0)`;
+    };
+
+    const requestRender = () => {
+      if (frameId === 0) {
+        frameId = window.requestAnimationFrame(render);
+      }
+    };
+
+    const measure = () => {
+      horizontalDistance = Math.max(
+        container.scrollWidth - viewport.clientWidth,
+        0
+      );
+      section.style.setProperty("--viewport-height", `${window.innerHeight}px`);
+      section.style.setProperty("--scroll-distance", `${horizontalDistance}px`);
+      requestRender();
+    };
+
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(container);
+    resizeObserver.observe(viewport);
+
+    window.addEventListener("scroll", requestRender, { passive: true });
+    window.addEventListener("resize", measure, { passive: true });
+    measure();
+  }
+</script>
+
 <style>
   #section-3 {
+    --scroll-distance: 0px;
+    --viewport-height: 100vh;
+
     position: relative;
-    height: 100vh;
-    overflow: hidden;
+    height: calc(var(--viewport-height) + var(--scroll-distance));
+  }
+
+  .viewport {
+    position: sticky;
+    top: 0;
+    height: var(--viewport-height);
+    overflow: clip;
   }
 
   h3 {
@@ -115,11 +174,11 @@ const portfolios = [
     display: flex;
     flex-wrap: nowrap;
     gap: 1rem;
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     height: 50%;
     padding: 1rem;
-    overflow-x: auto;
-    scrollbar-width: none;
+    will-change: transform;
   }
 
   .portfolio {
