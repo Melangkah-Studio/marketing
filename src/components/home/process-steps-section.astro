@@ -88,6 +88,11 @@ const steps = [
         continue;
       }
 
+      const revealHeight = Math.max(
+        ...Array.from(rows, (row) => row.getBoundingClientRect().height)
+      );
+      section.style.setProperty("--reveal-height", `${revealHeight}px`);
+
       const frameBounds = frame.getBoundingClientRect();
 
       for (const [index, image] of images.entries()) {
@@ -131,7 +136,7 @@ const steps = [
   }
 
   .content-container {
-    --item-height: 16rem;
+    --reveal-height: 16rem;
     --reveal-width: min(35vw, 9.375rem);
 
     position: relative;
@@ -151,7 +156,6 @@ const steps = [
       "title image"
       "description image";
     grid-template-columns: minmax(0, 1fr) 38%;
-    height: var(--item-height);
     background: #edebde;
   }
 
@@ -184,11 +188,11 @@ const steps = [
 
   .reveal-layer {
     position: sticky;
-    top: calc(50vh - var(--item-height) / 2);
+    top: calc(50vh - var(--reveal-height) / 2);
     z-index: 1;
     grid-area: 1 / 1;
     align-self: start;
-    height: var(--item-height);
+    height: var(--reveal-height);
     pointer-events: none;
   }
 
@@ -221,13 +225,14 @@ const steps = [
     grid-area: image;
     align-self: center;
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 1.1 / 1;
     object-fit: cover;
   }
 
   @media (min-width: 768px) {
     .content-container {
-      --item-height: clamp(18.75rem, 45vh, 27rem);
+      --reveal-height: 11.5rem;
       --reveal-width: min(25vw, 20.625rem);
     }
 
