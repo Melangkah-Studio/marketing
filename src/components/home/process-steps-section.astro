@@ -1,41 +1,133 @@
 ---
+import { Image } from "astro:assets";
+import WeExplore from "@/assets/imgs/we-explore.png";
+import WeKeepGoing from "@/assets/imgs/we-keep-going.png";
+import WeListen from "@/assets/imgs/we-listen.png";
+import WeMoveTogether from "@/assets/imgs/we-move-together.png";
+
 const steps = [
   {
     description:
       "Every project starts by understanding where you are, what you're trying to achieve, and what matters to you",
+    image: WeListen,
     title: "We listen",
   },
   {
     description:
       "There is rarely only one way forward. We explore different ideas, perspectives, and possibilities before finding the direction that feels right.",
+    image: WeExplore,
     title: "We explore",
   },
   {
     description:
       "Design is a conversation. We work closely with you, sharing ideas, asking questions, and refining along the way.",
+    image: WeMoveTogether,
     title: "We move together",
   },
   {
     description:
       "Good things take time. we learn from what we make, turn it better, and keep moving forward until we find something worth holding on to.",
+    image: WeKeepGoing,
     title: "We keep going",
   },
 ];
 ---
 
-<section id="section-6">
-  <div class="content-container">
-    {steps.map((step, index) => (
-        <>
-          {index > 0 && <div class="divider" />}
-          <article class="content">
-            <h3>{step.title}</h3>
-            <p>{step.description}</p>
-          </article>
-        </>
-      ))}
+<section aria-label="How we move" id="section-6">
+  <div class="content-container" data-scroll-reveal>
+    <div aria-hidden="true" class="reveal-layer">
+      <div class="reveal-sticky">
+        <div class="reveal-frame" data-reveal-frame>
+          {steps.map((step, index) => (
+              <Image
+                alt=""
+                class="reveal-image"
+                data-reveal-image
+                src={step.image}
+                style={`--stack-index: ${index}`}
+              />
+            ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-list">
+      {steps.map((step, index) => (
+          <>
+            <article class="content" data-reveal-row>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+              <Image alt="" class="static-image" src={step.image} />
+            </article>
+            {index < steps.length - 1 && <div class="divider" />}
+          </>
+        ))}
+    </div>
   </div>
 </section>
+
+<script>
+  const revealSections = document.querySelectorAll<HTMLElement>(
+    "[data-scroll-reveal]"
+  );
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const updateReveal = () => {
+    if (reducedMotion.matches) {
+      return;
+    }
+
+    for (const section of revealSections) {
+      const frame = section.querySelector<HTMLElement>("[data-reveal-frame]");
+      const rows = section.querySelectorAll<HTMLElement>("[data-reveal-row]");
+      const images = section.querySelectorAll<HTMLElement>(
+        "[data-reveal-image]"
+      );
+
+      if (!frame) {
+        continue;
+      }
+
+      const revealHeight = Math.max(
+        ...Array.from(rows, (row) => row.getBoundingClientRect().height)
+      );
+      section.style.setProperty("--reveal-height", `${revealHeight}px`);
+
+      const frameBounds = frame.getBoundingClientRect();
+
+      for (const [index, image] of images.entries()) {
+        if (index === 0) {
+          image.style.setProperty("--reveal-top", "0%");
+          continue;
+        }
+
+        const row = rows[index];
+        if (!row) {
+          continue;
+        }
+
+        const rowTop = row.getBoundingClientRect().top;
+        const progress = Math.min(
+          1,
+          Math.max(0, (frameBounds.bottom - rowTop) / frameBounds.height)
+        );
+
+        image.style.setProperty("--reveal-top", `${100 - progress * 100}%`);
+      }
+    }
+  };
+
+  let animationFrame = 0;
+  const requestRevealUpdate = () => {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = requestAnimationFrame(updateReveal);
+  };
+
+  requestRevealUpdate();
+  window.addEventListener("scroll", requestRevealUpdate, { passive: true });
+  window.addEventListener("resize", requestRevealUpdate, { passive: true });
+  window.addEventListener("pageshow", requestRevealUpdate);
+</script>
 
 <style>
   #section-6 {
@@ -44,9 +136,18 @@ const steps = [
   }
 
   .content-container {
+    --reveal-height: 16rem;
+    --reveal-width: min(35vw, 9.375rem);
+
+    position: relative;
+    display: grid;
+    padding: 1rem;
+  }
+
+  .steps-list {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    grid-area: 1 / 1;
   }
 
   .content {
@@ -54,13 +155,22 @@ const steps = [
     grid-template-areas:
       "title image"
       "description image";
+    grid-template-rows: 1fr auto;
     grid-template-columns: minmax(0, 1fr) 38%;
+    min-height: var(--reveal-height);
     background: #edebde;
+  }
+
+  .divider {
+    position: relative;
+    z-index: 2;
+    height: 1rem;
+    background-color: white;
   }
 
   h3 {
     grid-area: title;
-    align-self: center;
+    align-self: start;
     padding: 1rem;
     font-size: 1.5rem;
     font-weight: 500;
@@ -70,7 +180,7 @@ const steps = [
 
   p {
     grid-area: description;
-    align-self: center;
+    align-self: end;
     padding: 2rem 1rem;
     font-size: 1rem;
     color: #333333;
@@ -78,25 +188,92 @@ const steps = [
     text-wrap: balance;
   }
 
-  .divider {
-    height: 1rem;
-    background-color: white;
+  .reveal-layer {
+    position: sticky;
+    top: calc(50vh - var(--reveal-height) / 2);
+    z-index: 1;
+    grid-area: 1 / 1;
+    align-self: start;
+    height: var(--reveal-height);
+    pointer-events: none;
+  }
+
+  .reveal-sticky {
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+  }
+
+  .reveal-frame {
+    position: relative;
+    width: var(--reveal-width);
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .reveal-image {
+    position: absolute;
+    inset: 0;
+    z-index: var(--stack-index);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: inset(var(--reveal-top, 100%) 0 0);
+    will-change: clip-path;
+  }
+
+  .static-image {
+    display: none;
+    grid-area: image;
+    align-self: center;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.1 / 1;
+    object-fit: cover;
   }
 
   @media (min-width: 768px) {
+    .content-container {
+      --reveal-height: 11.5rem;
+      --reveal-width: min(25vw, 20.625rem);
+    }
+
     .content {
       grid-template-areas: "title image description";
-      grid-template-columns: 1.6fr 1fr 1.6fr;
+      grid-template-rows: auto;
+      grid-template-columns: 1.2fr 1fr 1.6fr;
     }
 
     h3 {
+      align-self: center;
       padding: 4rem 2rem;
       font-size: 2rem;
     }
 
     p {
+      align-self: center;
       padding: 4rem 2rem;
       font-size: 1.25rem;
+    }
+
+    .reveal-sticky {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1.6fr;
+    }
+
+    .reveal-frame {
+      grid-column: 2;
+      justify-self: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-layer {
+      display: none;
+    }
+
+    .static-image {
+      display: block;
     }
   }
 </style>
