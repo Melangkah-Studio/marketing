@@ -4,17 +4,110 @@ import FlowerOutline from "@/assets/imgs/flower-outline.png";
 ---
 
 <section id="section-2">
-  <h2>Turning human ideas into digital things</h2>
-  <Image alt="Flower" src={FlowerOutline} />
-  <p>
-    Melangkah Studio is a small independent studio built around curiosity,
-    craft, and people
-  </p>
+  <div class="section-content">
+    <h2 data-text-reveal>Turning human ideas into digital things</h2>
+    <Image alt="Flower" src={FlowerOutline} />
+    <p>
+      Melangkah Studio is a small independent studio built around curiosity,
+      craft, and people
+    </p>
+  </div>
 </section>
+
+<script>
+  const heading = document.querySelector<HTMLElement>(
+    "#section-2 [data-text-reveal]"
+  );
+  const section = document.querySelector<HTMLElement>("#section-2");
+
+  if (
+    heading &&
+    section &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    const characters: HTMLElement[] = [];
+    const fragment = document.createDocumentFragment();
+
+    heading.style.visibility = "hidden";
+
+    for (const character of heading.textContent ?? "") {
+      if (/\s/u.test(character)) {
+        fragment.append(document.createTextNode(character));
+        continue;
+      }
+
+      const characterElement = document.createElement("span");
+      characterElement.textContent = character;
+      characterElement.style.opacity = "0.2";
+      characterElement.style.willChange = "opacity";
+      fragment.append(characterElement);
+      characters.push(characterElement);
+    }
+
+    heading.replaceChildren(fragment);
+    heading.style.visibility = "visible";
+
+    let animationFrame = 0;
+    let isVisible = false;
+
+    const updateReveal = () => {
+      if (!isVisible) {
+        return;
+      }
+
+      const bounds = section.getBoundingClientRect();
+      const revealDistance = bounds.height - window.innerHeight;
+      const progress = Math.min(Math.max(-bounds.top / revealDistance, 0), 1);
+      const activeCharacter = Math.floor(progress * characters.length);
+
+      for (const [index, character] of characters.entries()) {
+        if (index < activeCharacter) {
+          character.style.opacity = "1";
+          continue;
+        }
+
+        if (index === activeCharacter) {
+          const characterProgress = progress * characters.length - index;
+          character.style.opacity = String(0.2 + characterProgress * 0.8);
+          continue;
+        }
+
+        character.style.opacity = "0.2";
+      }
+    };
+
+    const requestRevealUpdate = () => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(updateReveal);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry?.isIntersecting ?? false;
+
+        if (isVisible) {
+          requestRevealUpdate();
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0 }
+    );
+
+    observer.observe(section);
+    window.addEventListener("scroll", requestRevealUpdate, { passive: true });
+    window.addEventListener("resize", requestRevealUpdate, { passive: true });
+    requestRevealUpdate();
+  }
+</script>
 
 <style>
   #section-2 {
     position: relative;
+    height: 200vh;
+  }
+
+  .section-content {
+    position: sticky;
+    top: 0;
     height: 100vh;
     overflow: hidden;
   }
@@ -49,6 +142,12 @@ import FlowerOutline from "@/assets/imgs/flower-outline.png";
     font-size: 1rem;
     color: #333333;
     letter-spacing: -0.05em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #section-2 {
+      height: 100vh;
+    }
   }
 
   @media (min-width: 425px) {
